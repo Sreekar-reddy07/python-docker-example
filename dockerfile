@@ -2,7 +2,7 @@ FROM ubuntu
 
 WORKDIR /app
 
-COPY requirements.txt /app/
+COPY requirments.txt /app/
 COPY mysite /app/
 COPY dockerfile /app/
 
