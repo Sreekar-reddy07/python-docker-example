@@ -12,7 +12,7 @@ SHELL ["/bin/bash", "-c"]
 
 RUN python3 -m venv venv1 && \
 source venv1/bin/activate && \
-pip install --no-cache-dir -r requirements.txt
+pip install --no-cache-dir -r requirments.txt
 
 EXPOSE 8000
 
