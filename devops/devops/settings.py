@@ -55,8 +55,10 @@ ROOT_URLCONF = 'devops.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [
+            BASE_DIR / "templates",  # Add this if you have a global template directory
+        ],
+        'APP_DIRS': True,  # This enables Django to search within each app's templates folder
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
