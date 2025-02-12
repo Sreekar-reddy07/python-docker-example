@@ -2,7 +2,7 @@ FROM ubuntu
 
 WORKDIR /app
 
-COPY requirments.txt /app/
+COPY requirements.txt /app/
 COPY mysite /app/
 COPY dockerfile /app/
 
@@ -12,8 +12,8 @@ SHELL ["/bin/bash", "-c"]
 
 RUN python3 -m venv venv1 && \
 source venv1/bin/activate && \
-pip install --no-cache-dir -r requirments.txt
+pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8000
 
-CMD source venv1/bin/activate && python3 manage.py runserver 127.0.0.1:8000
+CMD source venv1/bin/activate && python3 manage.py runserver 0.0.0.0:8000
