@@ -1,16 +1,19 @@
 FROM ubuntu
 
-WORKDIR /python_web_app
+WORKDIR /app
 
-COPY dockerfile /python_web_app/
-COPY requirments.txt /python_web_app/
-COPY mysite /python_web_app/
+COPY requirements.txt /app/
+COPY mysite /app/
+COPY dockerfile /app/
 
-RUN apt-get update &&\
-    apt-get install -y python3 python3-pip &&\
-    pip install -r requirments.txt &&\
-    cd mysite
+RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
 
-ENTRYPOINT ["python3"]
+SHELL ["/bin/bash", "-c"]
 
-CMD ["manage.py", "runserver", "0.0.0.0:8000"]
+RUN python3 -m venv venv1 && \
+source venv1/bin/activate && \
+pip install --no-cache-dir -r requirements.txt
+
+EXPOSE 8000
+
+CMD source venv1/bin/activate && python3 manage.py runserver 0.0.0.0:8000
