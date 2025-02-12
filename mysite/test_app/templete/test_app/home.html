@@ -5,81 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Fancy Django Website</title>
     <style>
-        /* Basic Reset */
+        /* General Reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Body Style */
+        /* Body Styling */
         body {
             font-family: 'Arial', sans-serif;
-            background: #f0f8ff;
+            background: linear-gradient(135deg, #6D98FF, #F9C8D4);
             color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
             text-align: center;
+            padding: 50px 20px;
+            min-height: 100vh;
         }
 
-        /* Container for center alignment */
+        /* Container Style */
         .container {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 50px;
-            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
-            width: 80%;
+            background-color: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             max-width: 600px;
+            margin: 0 auto;
         }
 
-        /* Title Style */
+        /* Title Styling */
         h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             color: #4CAF50;
+            font-weight: bold;
             margin-bottom: 20px;
+            text-transform: uppercase;
         }
 
-        /* Paragraph Style */
+        /* Subtitle Styling */
         p {
             font-size: 1.2rem;
             color: #555;
             line-height: 1.6;
+            margin-bottom: 30px;
         }
 
-        /* Hover effect on title */
-        h1:hover {
-            color: #45a049;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        /* Button Style */
+        /* Button Styling */
         .cta-btn {
+            display: inline-block;
             background-color: #4CAF50;
             color: white;
             padding: 15px 25px;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px;
             font-size: 1.1rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
             text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
         }
 
-        /* Hover effect on button */
         .cta-btn:hover {
             background-color: #45a049;
+            transform: scale(1.1);
         }
+
+        /* Animation for Title */
+        h1 {
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        /* Animation Keyframes */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .cta-btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to My Fancy Django Website!</h1>
-        <p>This is my first Django page with some extra styling.</p>
-        <a href="#" class="cta-btn">Click Me for More</a>
+        <p>This is my first Django page, and I've given it a much fancier look! Feel free to explore the design.</p>
+        <a href="#" class="cta-btn">Learn More</a>
     </div>
 </body>
 </html>
