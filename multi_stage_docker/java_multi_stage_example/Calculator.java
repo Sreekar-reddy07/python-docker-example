@@ -1,9 +1,9 @@
 import java.util.Scanner;
 
-public class calculator {
+public class Calculator {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("I am a calculator app ....");
+        System.out.println("Hi Abhishek.Veeramalla, I am a calculator app ....");
 
         while (true) {
             // Read input from the user
