@@ -1,17 +1,28 @@
+# Stage 1: Build the Java application
 FROM ubuntu AS ubun
 
 WORKDIR /app
 
+# Copy the source code to the container's working directory
 COPY . .
 
-SHELL ["/bin/bash", "-c"]
-
+# Install OpenJDK 17 for compiling Java code
 RUN apt-get update && apt-get install -y openjdk-17-jdk
 
+# Compile the Calculator.java file
 RUN javac Calculator.java
 
+# Create a JAR file
+RUN jar cfe calculator.jar Calculator Calculator.class
+
+# Stage 2: Create a runtime image using distroless Java (minimal runtime)
 FROM gcr.io/distroless/java
 
-COPY --from=ubun /app /app
+WORKDIR /app
 
-CMD ["java","Calculator"]
+# Copy the compiled JAR file from the build stage
+COPY --from=ubun /app/calculator.jar /app/
+
+# Set the entrypoint to run the Java application
+CMD ["java", "-jar", "calculator.jar"]
+
