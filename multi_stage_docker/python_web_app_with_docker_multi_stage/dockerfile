@@ -21,10 +21,13 @@ FROM gcr.io/distroless/python3
 
 WORKDIR /app
 
-# Copy the virtual environment **without unnecessary files**
-COPY --from=builder /app/venv1 /app/venv1
+# Copy application code only (DO NOT COPY venv)
 COPY --from=builder /app/devops /app/devops
+COPY --from=builder /app/requirements.txt /app/
 
-# Run the application using the virtual environment
+# Create a fresh virtual environment inside the distroless image
+RUN python3 -m venv /app/venv1 && \
+    /app/venv1/bin/pip install --no-cache-dir -r /app/requirements.txt
+
+# Run the application using the correct virtual environment
 CMD ["/app/venv1/bin/python3", "/app/devops/manage.py", "runserver", "0.0.0.0:8000"]
-
