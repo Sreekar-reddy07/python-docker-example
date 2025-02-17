@@ -4,7 +4,10 @@ WORKDIR /app
 
 COPY . .
 
-RUN apt-get updates && apt-get install -y openjdk-17-jdk
+SHELL ["/bin/bash", "-c"]
+
+RUN apt-get update && apt-get install -y openjdk-17-jdk
+
 RUN javac calculator.java
 
 ENTRYPOINT ["java"]
