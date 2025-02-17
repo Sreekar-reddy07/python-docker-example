@@ -1,28 +1,25 @@
-# Stage 1: Build the Java application
-FROM ubuntu AS ubun
+###########################################
+# BASE IMAGE
+###########################################
 
-WORKDIR /app
+FROM ubuntu AS build
 
-# Copy the source code to the container's working directory
+RUN apt-get update && apt-get install -y golang-go
+
+ENV GO111MODULE=off
+
 COPY . .
 
-# Install OpenJDK 17 for compiling Java code
-RUN apt-get update && apt-get install -y openjdk-17-jdk
+RUN CGO_ENABLED=0 go build -o /app .
 
-# Compile the Calculator.java file
-RUN javac Calculator.java
+############################################
+# HERE STARTS THE MAGIC OF MULTI STAGE BUILD
+############################################
 
-# Create a JAR file
-RUN jar cfe calculator.jar Calculator Calculator.class
+FROM scratch
 
-# Stage 2: Create a runtime image using distroless Java (minimal runtime)
-FROM gcr.io/distroless/java
+# Copy the compiled binary from the build stage
+COPY --from=build /app /app
 
-WORKDIR /app
-
-# Copy the compiled JAR file from the build stage
-COPY --from=ubun /app/calculator.jar /app/
-
-# Set the entrypoint to run the Java application
-CMD ["java", "-jar", "calculator.jar"]
-
+# Set the entrypoint for the container to run the binary
+ENTRYPOINT ["/app"]
