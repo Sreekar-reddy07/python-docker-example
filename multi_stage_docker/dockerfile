@@ -9,13 +9,8 @@ COPY app.py /app/
 # Install necessary packages
 RUN apt-get update && apt-get install -y python3 python3-pip
 
-# Define the entry point
-ENTRYPOINT ["python3", "/app/app.py"]
-
 # Stage 2: Final image
-FROM ubuntu AS final
-
-WORKDIR /app
+FROM python3
 
 # Copy built artifacts from previous stage
 COPY --from=ubu /app /app
