@@ -1,29 +1,29 @@
-#stage 1: creating a foundation image
-
+# Stage 1: Creating a foundation image
 FROM ubuntu AS ubun
 
 WORKDIR /app
 
-COPY dockerfile /app/
+# Copy application files
 COPY requirements.txt /app/
 COPY devops /app/
 
+# Install dependencies
 RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
 
-SHELL ["/bin/bash", "-c"]
-
+# Create and set up virtual environment
 RUN python3 -m venv venv1 && \
-    source venv1/bin/activate && \
-    pip install --no-cache-dir -r requirements.txt
+    /app/venv1/bin/pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8000
 
-#stage 2: creating a distroless image for python
-
+# Stage 2: Creating a Distroless Python Image
 FROM gcr.io/distroless/python3
 
+WORKDIR /app
+
+# Copy everything from the first stage
 COPY --from=ubun /app /app
 
-SHELL ["/bin/bash", "-c"]
+# Set the correct CMD without using `source`
+CMD ["/app/venv1/bin/python3", "manage.py", "runserver", "0.0.0.0:8000"]
 
-CMD source venv1/bin/activate && python3 manage.py runserver 0.0.0.0:8000
