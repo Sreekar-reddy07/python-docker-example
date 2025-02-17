@@ -1,0 +1,17 @@
+#stage 1
+
+FROM ubuntu as ubuntu
+
+WORKDIR /app
+
+COPY app.py dokcerfile /app
+
+RUN apt-get update && apt-get install -y python3 python3-pip
+
+ENTRYPOINT ["/app"]
+
+#stage 2
+
+COPY --from = ubuntu /app
+
+CMD ["python3", "app.py"]
