@@ -1,0 +1,6 @@
+FROM ubuntu AS ubun
+
+WORKDIR /app
+
+COPY dockerfile /app
+COPY requirements.txt /app
