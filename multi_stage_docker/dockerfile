@@ -1,6 +1,6 @@
 #stage 1
 
-FROM ubuntu as ubuntu
+FROM ubuntu as ubu
 
 WORKDIR /app
 
@@ -12,6 +12,6 @@ ENTRYPOINT ["/app"]
 
 #stage 2
 
-COPY --from = ubuntu /app
+COPY --from=ubu /app
 
 CMD ["python3", "app.py"]
