@@ -16,4 +16,4 @@ FROM gcr.io/distroless/python3
 COPY --from=ubu /app /app
 
 # Default command to run the application
-CMD ["python3", "/app/app.py"]
+CMD ["/app/app.py"]
