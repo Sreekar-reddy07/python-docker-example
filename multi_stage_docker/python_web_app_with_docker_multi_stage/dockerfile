@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
 # Copy dependencies first for caching
 COPY requirements.txt /app/
 
+SHELL ["/bin/bash", "-c"]
+
 # Create virtual environment & install dependencies
 RUN python3 -m venv /app/venv1 && \
     /app/venv1/bin/pip install --no-cache-dir -r /app/requirements.txt
@@ -23,11 +25,6 @@ WORKDIR /app
 
 # Copy application code only (DO NOT COPY venv)
 COPY --from=builder /app/devops /app/devops
-COPY --from=builder /app/requirements.txt /app/
-
-# Create a fresh virtual environment inside the distroless image
-RUN python3 -m venv /app/venv1 && \
-    /app/venv1/bin/pip install --no-cache-dir -r /app/requirements.txt
 
 # Run the application using the correct virtual environment
 CMD ["/app/venv1/bin/python3", "/app/devops/manage.py", "runserver", "0.0.0.0:8000"]
