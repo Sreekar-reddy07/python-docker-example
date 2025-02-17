@@ -1,29 +1,30 @@
-# Stage 1: Creating a foundation image
-FROM ubuntu AS ubun
+# Stage 1: Build environment
+FROM ubuntu AS builder
 
 WORKDIR /app
 
-# Copy application files
-COPY requirements.txt /app/
-COPY devops /app/
-
-# Install dependencies
+# Install system dependencies
 RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
 
-# Create and set up virtual environment
-RUN python3 -m venv venv1 && \
-    /app/venv1/bin/pip install --no-cache-dir -r requirements.txt
+# Copy dependencies first for caching
+COPY requirements.txt /app/
 
-EXPOSE 8000
+# Create virtual environment & install dependencies
+RUN python3 -m venv /app/venv1 && \
+    /app/venv1/bin/pip install --no-cache-dir -r /app/requirements.txt
 
-# Stage 2: Creating a Distroless Python Image
+# Copy the rest of the application code
+COPY devops /app/
+
+# Stage 2: Final Distroless Image
 FROM gcr.io/distroless/python3
 
 WORKDIR /app
 
-# Copy everything from the first stage
-COPY --from=ubun /app /app
+# Copy the virtual environment **without unnecessary files**
+COPY --from=builder /app/venv1 /app/venv1
+COPY --from=builder /app/devops /app/devops
 
-# Set the correct CMD without using `source`
-CMD ["/app/venv1/bin/python3", "manage.py", "runserver", "0.0.0.0:8000"]
+# Run the application using the virtual environment
+CMD ["/app/venv1/bin/python3", "/app/devops/manage.py", "runserver", "0.0.0.0:8000"]
 
