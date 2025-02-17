@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=ze1!au37i3$fg&a_th8z*@&^k^e%@!gwf2er2!trod7tg8vrf'
+SECRET_KEY = 'django-insecure-+wvhw_*rpbt5l2dffb3z#vo$2t767wfkkd=9hsiml+p9o=2&x7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'demo',
 ]
 
 MIDDLEWARE = [
@@ -54,8 +55,10 @@ ROOT_URLCONF = 'devops.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [
+            BASE_DIR / "templates",  # Add this if you have a global template directory
+        ],
+        'APP_DIRS': True,  # This enables Django to search within each app's templates folder
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
