@@ -1,0 +1,16 @@
+FROM ubuntu AS ubun
+
+WORKDIR /app
+
+COPY . .
+
+RUN apt-get updates && apt-get install -y openjdk-8-jdk &&\
+    javac calculator.java
+
+ENTRYPOINT ["java"]
+
+FROM gcr.io/distroless/java
+
+COPY --from=ubun /app /app
+
+CMD ["calculator"]
