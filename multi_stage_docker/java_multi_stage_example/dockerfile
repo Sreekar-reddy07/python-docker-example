@@ -1,7 +1,7 @@
 # Stage 1: Build Stage
 FROM ubuntu:20.04 AS builder
 
-# Install OpenJDK 11 and Maven
+# Install Java and Maven
 RUN apt-get update && \
     apt-get install -y openjdk-11-jdk maven && \
     apt-get clean;
@@ -9,22 +9,22 @@ RUN apt-get update && \
 # Set working directory
 WORKDIR /app
 
-# Copy the pom.xml and source code to the container
+# Copy files to container
 COPY pom.xml .
 COPY src/ ./src/
 
-# Install dependencies and build the Java application
+# Build the application
 RUN mvn clean package
 
 # Stage 2: Run Stage
 FROM gcr.io/distroless/java:11
 
-# Set working directory for the runtime container
+# Set working directory
 WORKDIR /app
 
-# Copy the jar file from the build stage
+# Copy built JAR file from build stage
 COPY --from=builder /app/target/calculator-1.0-SNAPSHOT.jar /app/calculator.jar
 
-# Command to run the app
-CMD ["calculator.jar"]
+# Run the application
+CMD ["java", "-jar", "/app/calculator.jar"]
 
