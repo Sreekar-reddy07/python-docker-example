@@ -1,0 +1,16 @@
+FROM ubuntu AS builder
+
+WORKDIR /app
+
+COPY Calculator.java .
+
+RUN apt-get update &&\
+    apt-get install -y openjdk-17-jdk
+
+RUN javac Calculator.java
+
+FROM gcr.io/distroless/java17
+
+COPY --from=builder /app .
+
+CMD ["java", "Calculator"]
