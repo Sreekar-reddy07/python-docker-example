@@ -10,4 +10,4 @@ FROM gcr.io/distroless/python3
 
 COPY --from=build /app /app
 
-CMD ["sh", "-c", "python3 --version && python3 app.py"]
+CMD ["python3", "--version", "&&", "python3", "app.py"]
